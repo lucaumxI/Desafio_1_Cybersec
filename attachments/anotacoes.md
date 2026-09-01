@@ -140,3 +140,15 @@ $$
 3910539794193409979886870049869456815685040868312878537393070815966881265118275755165613835833103526090552456472867019296386475520134783987251699999776365
 $$
 Neste ponto, o algoritmo LCG foi quebrado. Possuímos a semente, o módulo, o multiplicador e o incremento. Como o algoritmo
+
+## Quebrando o RSA
+
+Tendo todos os parametros do LCG, agora é basicamente copiar e colar o generate.py preenchendo com os parametros encontrados.
+### Mudanças feitas:
+- Trocamos a atribuição do lcg.m, .c e .n com os parametros encontrados
+- Retiramos todos os assets
+- Removemos a instanciação do dump_file e toda sua manipulação
+- Para calcularmos a chave privada $d$ modificamos o trecho que a define, pegando o valor de $e$ presente no _public.pem_
+- Abrimos o arquivo de flag, convertemos seus bits para inteiro (estava em little-endian) e aplica a fórmula para decifrar $texto\_claro=texto\_cifrado^d \space mod \space N$
+- Por fim, converte o número decifrado para texto e printa na tela:
+`CTF{C0nGr@tz_RiV35t_5h4MiR_nD_Ad13MaN_W0ulD_b_h@pPy}`
