@@ -102,8 +102,41 @@ $$T_2 \cdot T_0 \equiv T_1^2 \pmod N$$
 A expressão matemática que deduzimos acima estabelece que a multiplicação $T_2 \cdot T_0$ e a potência $T_1^2$ deixam exatamente o mesmo resto quando divididas pelo módulo $N$.
 
 Por definição fundamental de aritmética modular, se dois números são congruentes módulo $N$, a subtração entre eles resulta em um múltiplo exato de $N$ (com resto zero). Portanto, ao passarmos $T_1^2$ para o outro lado da equação subtraindo, a relação modular se transforma em uma igualdade algébrica tradicional:
-$$(T_2 \cdot T_0) - T_1^2 = k \cdot N$$
+$$(T_2 \cdot T_0) - T_1^2 = k \cdot N   \space \text{I}$$
 
 Onde $k$ representa um número inteiro arbitrário.
 
 Neste ponto, o $N$ foi completamente isolado. Como possuímos uma amostra de 7 valores originais ($X_0$ a $X_6$), podemos calcular múltiplas diferenças $T$ e, consequentemente, gerar vários valores numéricos que representam múltiplos diferentes de $N$ (por exemplo, $k_1 \cdot N$, $k_2 \cdot N$ e $k_3 \cdot N$). Para descobrir o valor exato de $N$, basta calcular o Maior Divisor Comum (MDC) entre esses múltiplos absolutos encontrados.
+
+## Descobrindo os valores do LCG (lcg.py)
+
+Agora, basicamente peguei os valores em dump.txt, calculei todos os $T_i$ e usando a equação $(I)$ (preciso ver como põe link interno aqui ou depois passo isso pra .tex) achei 4 valores de $k_iN$, tirando o MDC desses 4 números encontramos o valor $n$ como sendo:
+$$
+8311271273016946265169120092240227882013893131681882078655426814178920681968884651437107918874328518499850252591810409558783335118823692585959490215446923
+$$
+
+Tendo o valor de $n$ podemos usar a expressão:
+$$
+\begin{aligned}
+T_1 &\equiv M \cdot T_0 \pmod N \\
+M &\equiv T_1 \cdot T_0^{-1} \pmod N
+\end{aligned}
+$$
+para descobrir o valor de $m$. O valor encontrado foi de:
+$$
+99470802153294399618017402366955844921383026244330401927153381788409087864090915476376417542092444282980114205684938728578475547514901286372129860608477
+$$
+
+Com os parâmetros $n$ e $m$ em mãos, basta voltarmos à equação do LCG para descobrir o valor de $c$. Utilizando os dois primeiros valores que possuímos ($X_0$ sendo a semente inicial e $X_1$ a primeira saída):
+
+$$X_1 \equiv (M \cdot X_0 + C) \pmod N$$
+
+Como todas as operações modulares permitem isolar variáveis por meio de adição e subtração tradicionais, passamos a multiplicação $(M \cdot X_0)$ subtraindo para o outro lado:
+
+$$C \equiv (X_1 - M \cdot X_0) \pmod N$$
+
+Substituindo as variáveis no nosso script Python pelos valores já obtidos, calculamos o resto dessa divisão, o que nos da um valor de $c$:
+$$
+3910539794193409979886870049869456815685040868312878537393070815966881265118275755165613835833103526090552456472867019296386475520134783987251699999776365
+$$
+Neste ponto, o algoritmo LCG foi quebrado. Possuímos a semente, o módulo, o multiplicador e o incremento. Como o algoritmo
